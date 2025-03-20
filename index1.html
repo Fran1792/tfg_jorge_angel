@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Concesionario - Inicio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery agregado -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -16,15 +16,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Vehículos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contacto</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Vehículos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
                 </ul>
             </div>
         </div>
@@ -51,7 +45,6 @@
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Ingresar</button>
                         </form>
-                        <p class="mt-3 text-center text-danger" id="loginError" style="display: none;"></p>
                         <p class="mt-3 text-center">¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
                     </div>
                 </div>
@@ -60,37 +53,24 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script type="text/javascript">
+    
+    <script>
         $(document).ready(function() {
             $("#loginForm").submit(function(event) {
                 event.preventDefault();
 
-                if ($('#email').val().trim() === "") {
-                    $('#email').focus();
-                } else if ($('#password').val().trim() === "") {
-                    $('#password').focus();
-                } else {
-                    var email = $('#email').val().trim();
-                    var password = $('#password').val().trim();
-                    var url = "php/login.php";
-                    
-                    $.post(url, { tuser: email, tpassword: password }, function(respuesta) {
-                        console.log(respuesta);
-                        if (respuesta.status === "success") {
-                            $('#loginError').hide();
-                            alert("✅ Sesión iniciada con éxito. Redirigiendo...");
-                            setTimeout(function() {
-                                window.location.href = "panel_usuario.html";
-                            }, 2000);
-                        } else {
-                            $('#loginError').text(respuesta.message).show();
-                        }
-                    }, "json").fail(function(jqXHR, textStatus, errorThrown) {
-                        console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
-                        alert("❌ Error en la conexión con el servidor.");
-                    });
-                }
+                var email = $('#email').val().trim();
+                var password = $('#password').val().trim();
+                var url = "php/login.php";
+                
+                $.post(url, { tuser: email, tpassword: password }, function(respuesta) {
+                    if (respuesta.status === "success") {
+                        alert("✅ Sesión iniciada con éxito. Redirigiendo...");
+                        window.location.href = "panel_usuario.html";
+                    } else {
+                        alert("❌ " + respuesta.message);
+                    }
+                }, "json");
             });
         });
     </script>
