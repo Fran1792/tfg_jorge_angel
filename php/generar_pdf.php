@@ -1,5 +1,7 @@
 <?php
-require(__DIR__ . '/../ficheros/conexion.php');
+ob_start(); // Inicia el buffer de salida
+
+require(__DIR__ . '/../ficheros/conexion.php'); 
 require(__DIR__ . '/../fpdf/fpdf.php'); 
 
 if (!isset($_GET['id_pedido'])) {
@@ -95,12 +97,6 @@ $pdf->Ln(10);
 $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(190, 10, "Gracias por su compra!", 0, 1, 'C');
 
-// Limpia cualquier salida previa antes de enviar el PDF
-ob_clean();
-flush();
-header('Content-Type: application/pdf');
-header('Content-Disposition: inline; filename="factura.pdf"');
-
-$pdf->Output('I');
+ob_end_clean(); // Elimina cualquier salida previa
+$pdf->Output('I', 'factura_' . $id_pedido . '.pdf');
 exit;
-?>
