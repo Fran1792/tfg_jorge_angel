@@ -98,5 +98,7 @@ $pdf->Ln(10);
 $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(190, 10, "Gracias por su compra!", 0, 1, 'C');
 
-$pdf->Output('D', 'factura_' . $id_pedido . '.pdf'); // Descargar el PDF
+//$pdf->Output('D', 'factura_' . $id_pedido . '.pdf'); // Descargar el PDF
+$pdf->Output('I', 'factura_' . $id_pedido . '.pdf'); // Mostrar el PDF en el navegador
+
 ?>
