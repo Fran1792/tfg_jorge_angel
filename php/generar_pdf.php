@@ -1,5 +1,5 @@
 <?php
-require(__DIR__ . '/../ficheros/conexion.php'); 
+require(__DIR__ . '../ficheros/conexion.php'); 
 require(__DIR__ . '/../fpdf/fpdf.php'); 
 
 if (!isset($_GET['id_pedido'])) {
