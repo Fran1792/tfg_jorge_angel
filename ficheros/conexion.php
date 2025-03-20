@@ -1,44 +1,19 @@
-﻿<?php
-// recogemos en unas variables los datos de la conexión
+<?php
+// Configuración de la conexión con variables de entorno
+$servidor = getenv("DB_HOST");
+$usuario = getenv("DB_USER");
+$contraseña = getenv("DB_PASSWORD");
+$shema = getenv("DB_NAME");
+$puerto = getenv("DB_PORT"); // Render usa normalmente el puerto 3306
 
-// a "mysqli()" le tengo que pasar:
-// -> el servidor al que me quiero conectar
-// -> el usuario
-// -> la contraseña
-// -> esquema (shema) que quiero utilizar
+try {
+    // Establecemos conexión a la base de datos
+    $conn = new mysqli($servidor, $usuario, $contraseña, $shema, $puerto);
 
-$servidor="127.0.0.1";
-$usuario="jorge";
-$contraseña="666666.j";
-$shema="tfgjorge";
-$puerto=3307; // Especificamos el puerto de conexión
+    // Configurar codificación de caracteres
+    $conn->query("SET NAMES 'utf8'");
 
-//**********************************************************************
-// CONEXIÓN A LOCALHOST
-//**********************************************************************
-// si en el código que hay dentro de un "try" -> se produce un error->
-// se ejecuta el código que haya en el "catch"
-try
-{
-	// establecemos conexión al servidor de base de Datos con el puerto especificado
-	$conn=new mysqli($servidor, $usuario, $contraseña, $shema, $puerto);
-	
-	// visualizamos mensaje éxito
-	//echo "<font color='blue' size='5'>
-	//<b>MENSAJE:</b><br> La conexión (localhost) al Servidor de Base de Datos se ha establecido correctamente !!</font><br><br>";
-	
-	//para evitar problemas con acentos y ñ configuramos las querys de esta manera 
-	$conn->query("SET NAMES 'utf8'");
-	
-} 
-//**********************************************************************
-// en "$e" tenemos la descripción del Error
-// podemos utilizarla o no utilizarla
-catch (exception $e)
-{
-    //echo "Error capturado: ".$e->getMessage()."<br>";
-	//echo "<font color='red' size='5'>
-	//<b>ERROR:</b><br> No se pudo realizar la conexión al Servidor de Base de Datos!!</font><br><br>";
+} catch (Exception $e) {
+    die("Error de conexión: " . $e->getMessage());
 }
-//**********************************************************************
 ?>
