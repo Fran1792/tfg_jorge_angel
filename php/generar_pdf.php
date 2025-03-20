@@ -1,13 +1,12 @@
 <?php
-require('../ficheros/conexion.php'); 
-require('../fpdf/fpdf.php'); 
+require(__DIR__ . '/../ficheros/conexion.php'); 
+require(__DIR__ . '/../fpdf/fpdf.php'); 
 
 if (!isset($_GET['id_pedido'])) {
     die("ID de pedido no especificado.");
 }
 
 $id_pedido = intval($_GET['id_pedido']);
-
 
 $sql = "SELECT 
 pe.id_pedido, 
@@ -46,7 +45,6 @@ if (!$pedido) {
     die("Pedido no encontrado.");
 }
 
-
 $pdf = new FPDF();
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 16);
@@ -55,13 +53,13 @@ $pdf->Ln(10);
 
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(50, 10, "Nombre del Cliente:", 0);
-$pdf->Cell(100, 10, $pedido['nombre_pedido'], 0, 1); // Corregir el campo de nombre
+$pdf->Cell(100, 10, $pedido['nombre_pedido'], 0, 1);
 
 $pdf->Cell(50, 10, "Usuario:", 0);
-$pdf->Cell(100, 10, $pedido['usuario'], 0, 1); // Corregir el campo de usuario
+$pdf->Cell(100, 10, $pedido['usuario'], 0, 1);
 
 $pdf->Cell(50, 10, "Correo:", 0);
-$pdf->Cell(100, 10, $pedido['correo_pedido'], 0, 1); // Corregir el campo de correo
+$pdf->Cell(100, 10, $pedido['correo_pedido'], 0, 1);
 
 $pdf->Cell(50, 10, "Fecha de Compra:", 0);
 $pdf->Cell(100, 10, $pedido['fecha_compra'], 0, 1);
@@ -81,8 +79,7 @@ $pdf->Cell(50, 10, "Marca:", 0);
 $pdf->Cell(100, 10, $pedido['vehiculo'], 0, 1);
 
 $pdf->Cell(50, 10, "Año:", 0);
-$pdf->Cell(100, 10, $pedido['año'], 0, 1);  // Usamos 'año' en lugar de 'anio'
-  // Ahora puedes acceder al año con 'anio'
+$pdf->Cell(100, 10, $pedido['año'], 0, 1);
 
 $pdf->Cell(50, 10, "Cantidad:", 0);
 $pdf->Cell(100, 10, $pedido['cantidad'], 0, 1);
@@ -98,7 +95,12 @@ $pdf->Ln(10);
 $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(190, 10, "Gracias por su compra!", 0, 1, 'C');
 
-//$pdf->Output('D', 'factura_' . $id_pedido . '.pdf'); // Descargar el PDF
-$pdf->Output('I', 'factura_' . $id_pedido . '.pdf'); // Mostrar el PDF en el navegador
+// Limpia cualquier salida previa antes de enviar el PDF
+ob_clean();
+flush();
+header('Content-Type: application/pdf');
+header('Content-Disposition: inline; filename="factura.pdf"');
 
+$pdf->Output('I');
+exit;
 ?>
