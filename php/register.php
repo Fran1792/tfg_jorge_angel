@@ -19,7 +19,7 @@ $consulta = "INSERT INTO usuarios (nombre, correo, contraseña, telefono, direcc
 // Ejecutar la consulta SQL
 if (mysqli_query($conn, $consulta)) {
     // Si la inserción es exitosa, redirigir al usuario a index1.html
-    header("Location: index.html");
+    header("Location: ../index.html");
     exit(); // Importante para asegurarse de que no se ejecute nada más después de la redirección
 } else {
     // Si hay un error, mostrar un mensaje de error
